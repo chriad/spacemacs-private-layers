@@ -52,7 +52,7 @@
     )
 )
 
-(use-package hydra)
+;; (use-package hydra)
 
 ;; (defun org-additional/init-org-fc ()
 ;;   (use-package org-fc
