@@ -55,8 +55,9 @@
 
 
 (defun bookmark+/init-bookmark-plus ()
-  (use-package bookmark-plus
-    :defer t
+  (use-package bookmark+
+    ;; :defer t
+    :config (setq bmkp-dired-history nil)
     ))
 
 (defun bookmark+/init-linkd ()
