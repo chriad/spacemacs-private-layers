@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#name : spacemacs-leader-mode
+#key : spacemacs-leader-mode
+#contributor : chriad
+# --
+(spacemacs/set-leader-keys-for-major-mode '${1:mode}
+            "${2:tp}" '${3:org-plot/gnuplot})

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : spacemacs-leader
+#key : spacemacs-leader
+#contributor : chriad
+# --
+(spacemacs/set-leader-keys "${1:\"ao/\"}" '${2:helm-org-rifle})
