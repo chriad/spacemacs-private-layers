@@ -57,6 +57,7 @@
     ;;helm-emms
     ;;helm-system-packages
     ;;helm-sly
+    helm
     )
 )
 
@@ -79,3 +80,9 @@
     ))
 
 ;; (helm-recoll-create-source "home" "~/.recoll")
+
+(defun helm-additional/pre-init-helm ()
+  (spacemacs|use-package-add-hook helm
+    :post-config
+    (helm-adaptive-mode 1)
+    ))

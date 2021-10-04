@@ -49,9 +49,10 @@
     (org-starless :location (recipe
                              :fetcher github
                              :repo "TonCherAmi/org-starless"))
-    (org-babel-hide-markers-mode :location (recipe
+    (ob-hide-markers :location (recipe
                              :fetcher github
-                             :repo "amno1/org-babel-hide-markers-mode"))
+                             :repo "amno1/org-babel-hide-markers-mode"
+                             :files ("ob-hide-markers.el")))
     )
 )
 
@@ -87,10 +88,11 @@
 (defun org-additional/init-org-starless ()
   (use-package org-starless
     :defer t
+    :requires (org)
     ))
 
-(defun org-additional/init-org-babel-hide-markers-mode ()
-  (use-package org-babel-hide-markers-mode
+(defun org-additional/init-ob-hide-markers ()
+  (use-package ob-hide-markers
     :defer t
     :init (spacemacs/set-leader-keys-for-major-mode 'org-mode
             "ox" 'org-babel-hide-markers-mode)
