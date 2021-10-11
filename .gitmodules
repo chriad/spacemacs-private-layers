@@ -1,0 +1,3 @@
+[submodule "bookmark+/local/bookmark-plus"]
+	path = bookmark+/local/bookmark-plus
+	url = https://github.com/emacsmirror/bookmark-plus.git
