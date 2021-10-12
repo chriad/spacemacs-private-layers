@@ -53,6 +53,7 @@
                              :fetcher github
                              :repo "amno1/org-babel-hide-markers-mode"
                              :files ("ob-hide-markers.el")))
+    org
     )
 )
 
@@ -97,3 +98,11 @@
     :init (spacemacs/set-leader-keys-for-major-mode 'org-mode
             "ox" 'org-babel-hide-markers-mode)
     ))
+
+(defun org-additional/post-init-org ()
+  ;; (spacemacs/set-leader-keys "aof" 'org-open-at-point-global)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "mos" 'org-hide-src-block-delimiters
+    "mop" 'org-toggle-properties
+    "mor" 'org-open-at-point)
+  )
