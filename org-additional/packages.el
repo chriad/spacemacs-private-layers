@@ -54,6 +54,9 @@
                              :repo "amno1/org-babel-hide-markers-mode"
                              :files ("ob-hide-markers.el")))
     org
+    (org-link-minor-mode :location (recipe
+                                    :fetcher github
+                                    :repo "seanohalpin/org-link-minor-mode"))
     )
 )
 
@@ -84,8 +87,6 @@
 ;;       (kbd "q") 'org-fc-review-quit)
 ;;     ))
 
-
-
 (defun org-additional/init-org-starless ()
   (use-package org-starless
     :defer t
@@ -106,3 +107,8 @@
     "op" 'org-toggle-properties
     "or" 'org-open-at-point)
   )
+
+(defun org-additional/init-org-link-minor-mode ()
+  (use-package org-link-minor-mode
+    :defer t
+    ))
