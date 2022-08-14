@@ -24,8 +24,6 @@
     (org-hide-properties)))
 
 
-
-
 (defun org-hide-src-block-delimiters ()
   (interactive)
   (save-excursion (goto-char (point-max))
