@@ -1,3 +1,6 @@
 [submodule "bookmark+/local/bookmark-plus"]
 	path = bookmark+/local/bookmark-plus
 	url = https://github.com/emacsmirror/bookmark-plus.git
+[submodule "calibre"]
+	path = calibre
+	url = https://github.com/dalanicolai/calibre-layer.git

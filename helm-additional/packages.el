@@ -74,6 +74,11 @@
     :defer t
     ))
 
+;; (defun helm-additional/init-helm-bibtex ()
+;;   (use-package helm-bibtex
+;;     :defer t
+;;     ))
+
 (defun helm-additional/init-helm-atoms ()
   (use-package helm-atoms
     :defer t
