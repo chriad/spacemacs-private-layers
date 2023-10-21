@@ -49,7 +49,7 @@
   '((chezmoi :location (recipe
                              :fetcher github
                              :repo "tuh8888/chezmoi.el"
-                             :files (:defaults "extensions")))))
+                             :files (:defaults "extensions/*.el")))))
 
 (defun chezmoi/init-chezmoi ()
   (use-package chezmoi
@@ -104,4 +104,5 @@
     (defun chezmoi-org-babel-tangle ()
       (when-let ((fle (chezmoi-target-file (buffer-file-name))))
         (chezmoi-write file)))
-    (add-hook 'org-babel-post-tangle-hook #'chezmoi-org-babel-tangle)))
+    (add-hook 'org-babel-post-tangle-hook #'chezmoi-org-babel-tangle))
+  :config (require 'chezmoi-ediff))
