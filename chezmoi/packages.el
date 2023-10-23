@@ -49,7 +49,10 @@
   '((chezmoi :location (recipe
                              :fetcher github
                              :repo "tuh8888/chezmoi.el"
-                             :files (:defaults "extensions/*.el")))))
+                             :files (:defaults "extensions/*.el")))
+    age
+    ligature)
+  )
 
 (defun chezmoi/init-chezmoi ()
   (use-package chezmoi
@@ -106,3 +109,11 @@
         (chezmoi-write file)))
     (add-hook 'org-babel-post-tangle-hook #'chezmoi-org-babel-tangle))
   :config (require 'chezmoi-ediff))
+
+
+
+(defun chezmoi/init-age ()
+  (use-package age))
+
+(defun chezmoi/init-ligature ()
+  (use-package ligature))
