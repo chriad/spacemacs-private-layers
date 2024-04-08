@@ -62,7 +62,7 @@
     (spacemacs/set-leader-keys
       "f d s" #'chezmoi-write
       "f d g" #'chezmoi-magit-status
-      "f d d" #'chezmoi-diff
+      ;; "f d d" #'chezmoi-diff
       "f d e" #'chezmoi-ediff
       "f d f" #'chezmoi-find
       "f d i" #'chezmoi-write-files
@@ -104,11 +104,13 @@
     (add-hook 'chezmoi-mode-hook #'(lambda () (ligature-mode (if chezmoi-mode 0 1))))
 
     ;; I find this hook useful for my emacs config files generated through org-tangle.
-    (defun chezmoi-org-babel-tangle ()
-      (when-let ((fle (chezmoi-target-file (buffer-file-name))))
-        (chezmoi-write file)))
-    (add-hook 'org-babel-post-tangle-hook #'chezmoi-org-babel-tangle))
-  :config (require 'chezmoi-ediff))
+    ;; (defun chezmoi-org-babel-tangle ()
+    ;;   (when-let ((fle (chezmoi-target-file (buffer-file-name))))
+    ;;     (chezmoi-write file)))
+    ;; (add-hook 'org-babel-post-tangle-hook #'chezmoi-org-babel-tangle)
+  :config
+  (require 'chezmoi-ediff)
+  (require 'chezmoi-magit)))
 
 
 

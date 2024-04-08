@@ -42,8 +42,17 @@
 
 (defconst bookmark+-packages
   '(
-
-    (bookmark-plus :location (recipe :fetcher local))
+    ;; (quelpa '(bookmark+ :fetcher wiki
+    ;;                     :files
+    ;;                     ("bookmark+.el"
+    ;;                      "bookmark+-mac.el"
+    ;;                      "bookmark+-bmu.el"
+    ;;                      "bookmark+-1.el"
+    ;;                      "bookmark+-key.el"
+    ;;                      "bookmark+-lit.el"
+    ;;                      "bookmark+-doc.el"
+    ;;                      "bookmark+-chg.el")))
+    ;; (bookmark-plus :location (recipe :fetcher local))
     ;; (bookmark-plus :location (recipe
     ;;                          :fetcher github
     ;;                          :repo "emacsmirror/bookmark-plus"))

@@ -42,6 +42,7 @@
 
 (defconst helm-additional-packages
   '(
+    helm-unicode
     ;;helm-github-stars
     ;;helm-slime
     helm-emmet
@@ -52,6 +53,7 @@
     helm-atoms
     ;; helm-bibtex
     ;; helm-bibtexkey
+    helm-atoms
     ;; helm-rg
     ;; helm-recoll
     ;;helm-emms
@@ -71,6 +73,11 @@
 
 (defun helm-additional/init-helm-firefox ()
   (use-package helm-firefox
+    :defer t
+    ))
+
+(defun helm-additional/init-helm-unicode ()
+  (use-package helm-unicode
     :defer t
     ))
 
