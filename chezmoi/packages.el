@@ -57,20 +57,21 @@
 (defun chezmoi/init-chezmoi ()
   (use-package chezmoi
     :init
-    (spacemacs/declare-prefix "f d" "chezmoi")
+    (spacemacs/declare-prefix "o f d" "chezmoi")
 
     (spacemacs/set-leader-keys
-      "f d s" #'chezmoi-write
-      "f d g" #'chezmoi-magit-status
-      ;; "f d d" #'chezmoi-diff
-      "f d e" #'chezmoi-ediff
-      "f d f" #'chezmoi-find
-      "f d i" #'chezmoi-write-files
-      "f d o" #'chezmoi-open-other
-      "f d t" #'chezmoi-template-buffer-display
-      "f d c" #'chezmoi-mode)
+      "o f d s" #'chezmoi-write
+      "o f d g" #'chezmoi-magit-status
+      "o f d d" #'chezmoi-diff
+      "o f d e" #'chezmoi-ediff
+      "o f d f" #'chezmoi-find
+      "o f d i" #'chezmoi-write-files
+      "o f d o" #'chezmoi-open-other
+      "o f d t" #'chezmoi-template-buffer-display
+      "o f d c" #'chezmoi-mode)
 
-    (when (cl-equalp dotspacemacs-editing-style 'vim)
+
+    (when (equalp dotspacemacs-editing-style 'vim)
       (defun chezmoi--evil-insert-state-enter ()
         "Run after evil-insert-state-entry."
         (chezmoi-template-buffer-display nil (point))
@@ -91,7 +92,6 @@
             (remove-hook 'evil-insert-state-entry-hook #'chezmoi--evil-insert-state-enter 1)
             (remove-hook 'evil-insert-state-exit-hook #'chezmoi--evil-insert-state-exit 1))))
       (add-hook 'chezmoi-mode-hook #'chezmoi-evil))
-
 
     (setq chezmoi-template-display-p t) ;; Display template values in all source buffers.
 
