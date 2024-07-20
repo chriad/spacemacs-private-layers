@@ -53,8 +53,7 @@
     helm-atoms
     ;; helm-bibtex
     ;; helm-bibtexkey
-    helm-atoms
-    ;; helm-rg
+    helm-rg
     ;; helm-recoll
     ;;helm-emms
     ;;helm-system-packages
@@ -89,6 +88,34 @@
 (defun helm-additional/init-helm-atoms ()
   (use-package helm-atoms
     :defer t
+    ))
+
+
+(defun helm-additional/init-helm-rg ()
+  (use-package helm-rg
+    :defer t
+    :config
+    ;; Add actions for inserting org file link from selected match
+; https://notes.alexkehayias.com/org-roam/
+  (defun insert-org-mode-link-from-helm-result (candidate)
+    (interactive)
+    (with-helm-current-buffer
+      (insert (format "[[file:%s][%s]]"
+                      (plist-get candidate :file)
+                      ;; Extract the title from the file name
+                      (subst-char-in-string
+                       ?_ ?\s
+                       (first
+                        (split-string
+                         (first
+                          (last
+                           (split-string (plist-get candidate :file) "\\-")))
+                         "\\.")))))))
+
+  (helm-add-action-to-source "Insert org-mode link"
+                             'insert-org-mode-link-from-helm-result
+                             helm-rg-process-source)
+
     ))
 
 ;; (helm-recoll-create-source "home" "~/.recoll")

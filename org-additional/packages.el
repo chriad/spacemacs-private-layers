@@ -42,10 +42,6 @@
 
 (defconst org-additional-packages
   '(
-    ;; (org-fc
-    ;;  :location (recipe :fetcher git
-    ;;                    :url "https://git.sr.ht/~l3kn/org-fc"
-    ;;                    :files (:defaults "awk" "demo.org")))
     (org-starless :location (recipe
                              :fetcher github
                              :repo "TonCherAmi/org-starless"))

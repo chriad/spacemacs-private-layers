@@ -56,9 +56,9 @@
     ;; (bookmark-plus :location (recipe
     ;;                          :fetcher github
     ;;                          :repo "emacsmirror/bookmark-plus"))
-    (linkd :location (recipe
-                              :fetcher github
-                              :repo "emacsmirror/linkd"))
+    ;; (linkd :location (recipe
+    ;;                           :fetcher github
+    ;;                           :repo "emacsmirror/linkd"))
     )
 )
 
@@ -69,7 +69,7 @@
     :config (setq bmkp-dired-history nil)
     ))
 
-(defun bookmark+/init-linkd ()
-  (use-package linkd
-    :defer t
-    ))
+;; (defun bookmark+/init-linkd ()
+;;   (use-package linkd
+;;     :defer t
+;;     ))
