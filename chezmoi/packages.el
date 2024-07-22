@@ -47,11 +47,12 @@
 
 (defconst chezmoi-packages
   '((chezmoi :location (recipe
-                             :fetcher github
-                             :repo "tuh8888/chezmoi.el"
-                             :files (:defaults "extensions/*.el")))
+                        :fetcher github
+                        :repo "tuh8888/chezmoi.el"
+                        :files (:defaults "extensions/*.el")))
     age
-    ligature)
+    ligature
+    )
   )
 
 (defun chezmoi/init-chezmoi ()
@@ -62,7 +63,7 @@
     (spacemacs/set-leader-keys
       "o f d s" #'chezmoi-write
       "o f d g" #'chezmoi-magit-status
-      "o f d d" #'chezmoi-diff
+      ;; "o f d d" #'chezmoi-diff
       "o f d e" #'chezmoi-ediff
       "o f d f" #'chezmoi-find
       "o f d i" #'chezmoi-write-files
@@ -108,9 +109,9 @@
     ;;   (when-let ((fle (chezmoi-target-file (buffer-file-name))))
     ;;     (chezmoi-write file)))
     ;; (add-hook 'org-babel-post-tangle-hook #'chezmoi-org-babel-tangle)
-  :config
-  (require 'chezmoi-ediff)
-  (require 'chezmoi-magit)))
+    :config
+    (require 'chezmoi-ediff)
+    (require 'chezmoi-magit)))
 
 
 
