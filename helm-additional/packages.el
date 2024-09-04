@@ -42,25 +42,27 @@
 
 (defconst helm-additional-packages
   '(
+    helm-apt
     helm-unicode
     ;;helm-github-stars
     ;;helm-slime
     helm-emmet
     helm-firefox
+    helm-file-preview
     ;; helm-describe-modes
     ;; helm-file-preview
     ;; helm-bbdb
     helm-atoms
     ;; helm-bibtex
     ;; helm-bibtexkey
-    helm-rg
+    ;; helm-rg 
     ;; helm-recoll
     ;;helm-emms
     ;;helm-system-packages
     ;;helm-sly
     helm
     )
-)
+  )
 
 
 (defun helm-additional/init-helm-emmet ()
@@ -75,6 +77,10 @@
     :defer t
     ))
 
+(defun helm-additional/init-helm-apt ()
+  (use-package helm-apt
+    :defer t
+    ))
 (defun helm-additional/init-helm-unicode ()
   (use-package helm-unicode
     :defer t
@@ -90,33 +96,36 @@
     :defer t
     ))
 
+(defun helm-additional/init-helm-file-preview ()
+  (use-package helm-file-preview
+    :defer t))
 
-(defun helm-additional/init-helm-rg ()
-  (use-package helm-rg
-    :defer t
-    :config
-    ;; Add actions for inserting org file link from selected match
-; https://notes.alexkehayias.com/org-roam/
-  (defun insert-org-mode-link-from-helm-result (candidate)
-    (interactive)
-    (with-helm-current-buffer
-      (insert (format "[[file:%s][%s]]"
-                      (plist-get candidate :file)
-                      ;; Extract the title from the file name
-                      (subst-char-in-string
-                       ?_ ?\s
-                       (first
-                        (split-string
-                         (first
-                          (last
-                           (split-string (plist-get candidate :file) "\\-")))
-                         "\\.")))))))
+;; (defun helm-additional/init-helm-rg ()
+;;   (use-package helm-rg
+;;     :defer t
+;;     ;; :config
+;;     ;; Add actions for inserting org file link from selected match
+;; ; https://notes.alexkehayias.com/org-roam/
+;;   ;; (defun insert-org-mode-link-from-helm-result (candidate)
+;;   ;;   (interactive)
+;;   ;;   (with-helm-current-buffer
+;;   ;;     (insert (format "[[file:%s][%s]]"
+;;   ;;                     (plist-get candidate :file)
+;;   ;;                     ;; Extract the title from the file name
+;;   ;;                     (subst-char-in-string
+;;   ;;                      ?_ ?\s
+;;   ;;                      (first
+;;   ;;                       (split-string
+;;   ;;                        (first
+;;   ;;                         (last
+;;   ;;                          (split-string (plist-get candidate :file) "\\-")))
+;;   ;;                        "\\.")))))))
 
-  (helm-add-action-to-source "Insert org-mode link"
-                             'insert-org-mode-link-from-helm-result
-                             helm-rg-process-source)
+;;   ;; (helm-add-action-to-source "Insert org-mode link"
+;;   ;;                            'insert-org-mode-link-from-helm-result
+;;   ;;                            helm-rg-process-source)
 
-    ))
+;;     ))
 
 ;; (helm-recoll-create-source "home" "~/.recoll")
 

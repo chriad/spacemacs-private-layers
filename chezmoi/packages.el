@@ -66,13 +66,13 @@
       ;; "o f d d" #'chezmoi-diff
       "o f d e" #'chezmoi-ediff
       "o f d f" #'chezmoi-find
-      "o f d i" #'chezmoi-write-files
+      "o f d w" #'chezmoi-write
       "o f d o" #'chezmoi-open-other
       "o f d t" #'chezmoi-template-buffer-display
       "o f d c" #'chezmoi-mode)
 
 
-    (when (equalp dotspacemacs-editing-style 'vim)
+    (when (equal dotspacemacs-editing-style 'vim)
       (defun chezmoi--evil-insert-state-enter ()
         "Run after evil-insert-state-entry."
         (chezmoi-template-buffer-display nil (point))

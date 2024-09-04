@@ -42,6 +42,7 @@
 
 (defconst curiophenalia-packages
   '((ink-mode :excluded t)
+    (spray)
     (fountain-mode :excluded t))
   "The list of Lisp packages required by the curiophenalia layer.
 
@@ -69,3 +70,6 @@ Each entry is either:
 
       - A list beginning with the symbol `recipe' is a melpa
         recipe.  See: https://github.com/milkypostman/melpa#recipe-format")
+(defun curiophenalia/init-spray ()
+  (use-package spray
+    :defer t))
