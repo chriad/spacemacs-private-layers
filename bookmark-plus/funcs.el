@@ -1,40 +1,69 @@
-;;;;   ;; TODO transient defachievment -> one bookmark of each known type
+;(require 'bookmark+-mac)
+;(require 'bookmark+)
+;;;;
 ;;; helper functions
+
+
+(defun chriad/bookmark-set-tag-prompt ()
+    "Prompt for tag"
+  (interactive)
+  (let ((bmkp-prompt-for-tags-flag t))
+    (call-interactively 'bookmark-set)))
+
 (defun chriad/bmkp-list-types ()
   (interactive)
   ;; TODO print in temporary, fileless buffer
   (pp (bmkp-types-alist)))
 
 
+
+(defun count-bookmarks () (seq-length bookmark-alist))
+
+
+;;; bookmarked functions
+(defun chriad/helm-documentation-f ()
+  (call-interactively 'helm-documentation))
+
+(defun chriad/find-data-directory ()
+  (find-file-other-window data-directory))
+
 (defun chriad/bmkp-help ()
-  (interactive)
   (message "Getting Bookmark+ doc from file commentary...")
   (finder-commentary "bookmark+-doc")
   (when (condition-case nil (require 'linkd nil t) (error nil)) (linkd-mode 1))
   (when (condition-case nil (require 'fit-frame nil t) (error nil))
     (fit-frame)))
 
-(defun count-bookmarks () (seq-length bookmark-alist))
-
-(defun helm-documentation-f ()
-  (call-interactively 'helm-documentation))
-
-
 ;;; register existing bookmarks with bookmark+
 ;; now-bookmark
 
-;; TODO probably a macro
-(defun chriad/bmkp-register-new-simple-type-bookmark (name filterf)
-  "(chriad/bmkp-register-new-simple-type-bookmark \"helm-ff-session-bookmark\" helm-ff-bookmark-jump)
-Return the two functions and eval (bmkp-define-history-variables)"
-  (ignore))
+;(defmacro chriad/bmkp-register-new-simple-type-bookmark (name doc-string handler-function)
+; "A simple type is one that can simply be checked by its handler function"
+; (let* ((command (intern (format "bmkp-%s-bookmark-alist-only" name)))
+;        (command2 (intern (format "bmkp-bmenu-show-only-%s-bookmarks" name))))
+;    `(progn
+;     (defun ,command ()
+;       ,doc-string
+;       (bookmark-maybe-load-default-file)
+;       (bmkp-remove-if-not
+;        (lambda () (eq (bookmark-get-handler bookmark) ,handler-function))
+;        bookmark-alist)))
+;    (bmkp-define-history-variables)
+;    `(bmkp-define-show-only-command ,name ,doc-string ,command)
+;    `(define-key bookmark-bmenu-mode-map [remap bmkp-bmenu-show-only-desktop-bookmarks]
+;                 ',command2)))
 
-(defun nov-bookmark-p (bookmark)
-  (eq (bookmark-get-handler bookmark) 'nov-bookmark-jump-handler))
+;; register new bookmark with bookmark+, i.e. add jump command and bmenu filter and key in use map
+;(chriad/bmkp-register-new-simple-type-bookmark "nov" "A bookmark for epub" 'nov-bookmark-jump-handler)
 
-(defun bmkp-nov-bookmark-alist-only ()
-  (bookmark-maybe-load-default-file)
-  (bmkp-remove-if-not #'nov-bookmark-p bookmark-alist))
+
+
+;; (defun nov-bookmark-p (bookmark)
+;;   (eq (bookmark-get-handler bookmark) 'nov-bookmark-jump-handler))
+
+;; (defun bmkp-nov-bookmark-alist-only ()
+;;   (bookmark-maybe-load-default-file)
+;;   (bmkp-remove-if-not #'nov-bookmark-p bookmark-alist))
 
 ;; helpful-bookmark
 (defun helpful-bookmark-p (bookmark)
@@ -53,6 +82,12 @@ Return the two functions and eval (bmkp-define-history-variables)"
   (bookmark-maybe-load-default-file)
   (bmkp-remove-if-not #'helm-ff-session-bookmark-p bookmark-alist))
 
+;(bmkp-define-show-only-command "helm-ff-session" "bookmark to helm find file session" bmkp-helm-ff-session-bookmark-alist-only)
+;(bmkp-define-show-only-command "helpful-bookmark" "bookmark to helm find file session" bmkp-helpful-bookmark-alist-only)
+
+
+;(define-key bookmark-bmenu-mode-map [remap bmkp-bmenu-show-only-desktop-bookmarks]
+;            'bmkp-bmenu-show-only-helpful-bookmark-bookmarks)
 
 ;; (defun magit-bookmark-p (bookmark)
 ;;   (eq (bookmark-get-handler bookmark) 'magit--handle-bookmark))
@@ -68,25 +103,10 @@ Return the two functions and eval (bmkp-define-history-variables)"
 (defun org-fc-bookmark-p (bookmark)
   (ignore))
 
-;; 
-(defun lib-bookmark-make-record ()
-  (require 'package-lint)
-  ;; TODO check (package-lint--get-package-prefix)=nil. Then dispatch to normal bookmark-default-record
-  ;; TODO difference between point and position?
-  ;; TODO if nil assume builtin?
-  `(,@(bookmark-make-record-default t nil nil) ;; no-file context=yes point=yes
-    (pkg       . ,(package-lint--get-package-prefix))
-    (libpath   . ,(buffer-file-name))
-    (handler   . lib-bookmark-jump)))
-
-(defun el-pkg-p ()
-  (require 'package-lint)
-  (if (package-lint--get-package-prefix) t nil))
-
-(add-hook 'emacs-lisp-mode-hook #'(lambda () (if (el-pkg-p)
-                                            (setq-local bookmark-make-record-function #'lib-bookmark-make-record))))
-
 ;; bookmark to a library known to emacs. Path can change when updating packages, so no file path.
+;; TODO use pkg-info-library-source pkg
+;; TODO use epl.el emacs package library
+;; TODO use maybe package-user-dir
 (defun lib-bookmark-jump (bookmark)
   "Create and switch to helpful bookmark BOOKMARK."
   (let* ((pkg (bookmark-prop-get bookmark 'pkg))
@@ -105,5 +125,57 @@ Return the two functions and eval (bmkp-define-history-variables)"
 ;;   (let ((pkg (bookmark-prop-get bookmark 'pkg)))
 ;;     (find-file (find-library-name pkg))))
 
+
+(defun lib-bookmark-make-record ()
+  (require 'package-lint)
+  ;; TODO check (package-lint--get-package-prefix)=nil. Then dispatch to normal bookmark-default-record
+  ;; TODO difference between point and position?
+  ;; TODO if nil assume builtin?
+  ;; epl-find-built-in-package
+  ;; epl-find-installed-package
+  ;; `epl-built-in-packages', `epl-installed-packages', `
+
+  `(,@(bookmark-make-record-default t nil nil) ;; no-file context=yes point=yes
+    (pkg       . ,(package-lint--get-package-prefix))
+    (libpath   . ,(buffer-file-name))
+    (handler   . lib-bookmark-jump)))
+
+(defun el-pkg-p ()
+  (require 'package-lint)
+  (if (package-lint--get-package-prefix) t nil))
+
+(add-hook 'emacs-lisp-mode-hook #'(lambda () (if (el-pkg-p)
+                                            (setq-local bookmark-make-record-function #'lib-bookmark-make-record))))
+
+
+
+
+;; buffer-substring-no-properties returns string, but I want list
+(defun bmkp-make-lambda-bookmark-from-region (&optional msg-p) ; Bound globally to `C-x x c F'.
+  "Create a bookmark that invokes FUNCTION when \"jumped\" to.
+You are prompted for the bookmark name and the name of the function.
+But with a prefix arg the last keyboard macro defined is used instead
+of prompting you for a function.
+
+Returns the new bookmark (internal record).
+
+Non-interactively, non-nil optional arg MSG-P means display a status
+message."
+  (mark-sexp)
+  (setq bookmark-name (bmkp-completing-read-lax "> "))
+  (bookmark-store bookmark-name `(,@(bookmark-make-record-default 'NO-FILE 'NO-CONTEXT 0 nil 'NO-REGION)
+                                  (function . (lambda () ,(buffer-substring-no-properties (region-beginning) (region-end))))
+                                  (handler  . bmkp-jump-function))
+                  nil nil (not msg-p))
+  (let ((new  (bmkp-bookmark-record-from-name bookmark-name 'NOERROR)))
+    (unless (memq new bmkp-latest-bookmark-alist)
+      (setq bmkp-latest-bookmark-alist  (cons new bmkp-latest-bookmark-alist)))
+    (bookmark-bmenu-surreptitiously-rebuild-list (not msg-p)) new))
+
+;; eval (bmkp-make-lambda-bookmark-from-region "test") on a region which is a legal function body form
+
+(message "test")
+
+;; TODO transient defachievment -> one bookmark of each known type
 
 
