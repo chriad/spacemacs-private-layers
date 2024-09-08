@@ -3,6 +3,10 @@
 ;;;;
 ;;; helper functions
 
+;;; Helpful bookmarks should be named
+;;; bmkp-tags-list    *helpful variable*
+;;; not
+;;; *helpful ...* ...   --- Unknown location ---
 
 (defun chriad/bookmark-set-tag-prompt ()
     "Prompt for tag"
@@ -21,9 +25,6 @@
 
 
 ;;; bookmarked functions
-(defun chriad/helm-documentation-f ()
-  (call-interactively 'helm-documentation))
-
 (defun chriad/find-data-directory ()
   (find-file-other-window data-directory))
 
@@ -66,6 +67,7 @@
 ;;   (bmkp-remove-if-not #'nov-bookmark-p bookmark-alist))
 
 ;; helpful-bookmark
+;; TODO make record function aware of helpful sections
 (defun helpful-bookmark-p (bookmark)
   (eq (bookmark-get-handler bookmark) 'helpful--bookmark-jump))
 
@@ -107,14 +109,37 @@
 ;; TODO use pkg-info-library-source pkg
 ;; TODO use epl.el emacs package library
 ;; TODO use maybe package-user-dir
+;; use locate-library
+
+;; package-alist
+
+
+;; ((geiser-guile #s(package-desc geiser-guile
+;;                                (0 28 2)
+;;                                "Guile and Geiser talk to each other"
+;;                                ((emacs
+;;                                  (26 1))
+;;                                 (transient
+;;                                  (0 3))
+;;                                 (geiser
+;;                                  (0 28 1)))
+;;                                nil nil "/gnu/store/kkmd2l7i8jakmq31yc7pgnd27d0xpxf3-emacs-geiser-guile-0.28.2/share/emacs/site-lisp/geiser-guile-0.28.2"
+;;                                ((:url . "https://gitlab.com/emacs-geiser/guile")
+;;                                 (:keywords "languages" "guile" "scheme" "geiser")
+;;                                 (:maintainer "Jose Antonio Ortega Ruiz" . "(jao@gnu.org)")
+;;                                 (:authors
+;;                                  ("Jose Antonio Ortega Ruiz" . "(jao@gnu.org)")))
+;;                                nil))
+
 (defun lib-bookmark-jump (bookmark)
   "Create and switch to helpful bookmark BOOKMARK."
   (let* ((pkg (bookmark-prop-get bookmark 'pkg))
          (position (bookmark-prop-get bookmark 'position))
          (oldpath (bookmark-prop-get bookmark 'libpath))
-         (newpath  (find-library-name pkg)))
+         (newpath  (find-library pkg)))
     ;; check if package has been updated since last visit
     ;; add new path to list 'revisions to track change
+    ;; bookmark-current-bookmark set-prop?
     (unless (equal oldpath newpath) (message "Package update detected"))
     (find-file newpath)
     (goto-char position)))
@@ -126,26 +151,31 @@
 ;;     (find-file (find-library-name pkg))))
 
 
+;; A library name is the filename of an Emacs Lisp library located in a directory under load-path
 (defun lib-bookmark-make-record ()
-  (require 'package-lint)
+  ;; (require 'package-lint)
   ;; TODO check (package-lint--get-package-prefix)=nil. Then dispatch to normal bookmark-default-record
   ;; TODO difference between point and position?
   ;; TODO if nil assume builtin?
   ;; epl-find-built-in-package
   ;; epl-find-installed-package
   ;; `epl-built-in-packages', `epl-installed-packages', `
-
+  ;; find-library also finds non .el files in packages unlike locate-library
+  ;; package-vc-p: is vc controlled, then bookmark revision
+  ;; TODO: missnamed buffers demo.org<org-fc-20...>
+  (if (find-library (file-name-nondirectory (buffer-file-name)))
   `(,@(bookmark-make-record-default t nil nil) ;; no-file context=yes point=yes
-    (pkg       . ,(package-lint--get-package-prefix))
+    (pkg       . ,(file-name-nondirectory (buffer-file-name)))
     (libpath   . ,(buffer-file-name))
-    (handler   . lib-bookmark-jump)))
+    (handler   . lib-bookmark-jump))
+  `(,@(bookmark-make-record-default))))
 
-(defun el-pkg-p ()
-  (require 'package-lint)
-  (if (package-lint--get-package-prefix) t nil))
+;; (defun el-pkg-p ()
+;;   (require 'package-lint)
+;;   (if (package-lint--get-package-prefix) t nil))
 
-(add-hook 'emacs-lisp-mode-hook #'(lambda () (if (el-pkg-p)
-                                            (setq-local bookmark-make-record-function #'lib-bookmark-make-record))))
+;; TODO modify such that all files on load path will have this
+(add-hook 'emacs-lisp-mode-hook #'(lambda () (setq-local bookmark-make-record-function #'lib-bookmark-make-record)))
 
 
 

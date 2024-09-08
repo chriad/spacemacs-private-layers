@@ -85,7 +85,15 @@ Each entry is either:
 
 (defun bookmark-plus/init-bookmark+ ()
   (use-package bookmark+
-    :defer t))
+    :defer t
+    :bind
+    (:map bmkp-set-map
+          ("I" . bmkp-set-info-bookmark-with-node-name)
+     ;; :map bmkp-jump-map
+     ;; ("C-x x O p" . chriad/bookmark-set-tag-prompt)
+     ;; ("C-x x O s" . bmkp-bookmark-file-switch-jump)
+     )
+    ))
 
 
 (defun bookmark-plus/init-linkd ()

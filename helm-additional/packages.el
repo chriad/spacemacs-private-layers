@@ -46,7 +46,7 @@
     helm-unicode
     ;;helm-github-stars
     ;;helm-slime
-    helm-emmet
+    (helm-emmet :toggle (configuration-layer/layer-used-p 'html))
     helm-firefox
     helm-file-preview
     ;; helm-describe-modes
@@ -60,7 +60,7 @@
     ;;helm-emms
     ;;helm-system-packages
     ;;helm-sly
-    helm
+    ;; helm
     )
   )
 
@@ -129,8 +129,8 @@
 
 ;; (helm-recoll-create-source "home" "~/.recoll")
 
-(defun helm-additional/pre-init-helm ()
-  (spacemacs|use-package-add-hook helm
-    :post-config
-    (helm-adaptive-mode 1)
-    ))
+;; (defun helm-additional/pre-init-helm ()
+;;   (spacemacs|use-package-add-hook helm
+;;     :post-config
+;;     (helm-adaptive-mode 1)
+;;     ))
