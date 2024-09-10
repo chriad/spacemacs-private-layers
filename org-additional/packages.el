@@ -49,7 +49,7 @@
                              :fetcher github
                              :repo "amno1/org-babel-hide-markers-mode"
                              :files ("org-babel-hide-markers.el")))
-    org
+    ;; org
     (org-link-minor-mode :location (recipe
                                     :fetcher github
                                     :repo "seanohalpin/org-link-minor-mode"))
@@ -97,9 +97,9 @@
     ))
 
 (defun org-additional/post-init-org ()
-  ;; (spacemacs/set-leader-keys "aof" 'org-open-at-point-global)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "os" 'org-hide-src-block-delimiters
+    "og" 'org-open-at-point-global
     "op" 'org-toggle-properties
     "or" 'org-open-at-point)
   )

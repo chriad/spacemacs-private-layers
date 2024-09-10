@@ -8,7 +8,7 @@
 ;;; not
 ;;; *helpful ...* ...   --- Unknown location ---
 
-(defun chriad/bookmark-set-tag-prompt ()
+(defun chriad/bmkp-set-tag-prompt ()
     "Prompt for tag"
   (interactive)
   (let ((bmkp-prompt-for-tags-flag t))
@@ -181,30 +181,19 @@
 
 
 ;; buffer-substring-no-properties returns string, but I want list
-(defun bmkp-make-lambda-bookmark-from-region (&optional msg-p) ; Bound globally to `C-x x c F'.
-  "Create a bookmark that invokes FUNCTION when \"jumped\" to.
-You are prompted for the bookmark name and the name of the function.
-But with a prefix arg the last keyboard macro defined is used instead
-of prompting you for a function.
-
-Returns the new bookmark (internal record).
-
-Non-interactively, non-nil optional arg MSG-P means display a status
-message."
-  (mark-sexp)
+(defun chriad/bmkp-make-lambda-bookmark-from-sexp (&optional msg-p) ; Bound globally to `C-x x c F'.
+  "Wrap the sexp before point (or the region) into a lambda expression as its body and create a function bookmark"
+  ;; (mark-sexp)
+  (interactive)
   (setq bookmark-name (bmkp-completing-read-lax "> "))
   (bookmark-store bookmark-name `(,@(bookmark-make-record-default 'NO-FILE 'NO-CONTEXT 0 nil 'NO-REGION)
-                                  (function . (lambda () ,(buffer-substring-no-properties (region-beginning) (region-end))))
+                                  (function . (lambda () ,(pp-last-sexp)))
                                   (handler  . bmkp-jump-function))
                   nil nil (not msg-p))
   (let ((new  (bmkp-bookmark-record-from-name bookmark-name 'NOERROR)))
     (unless (memq new bmkp-latest-bookmark-alist)
       (setq bmkp-latest-bookmark-alist  (cons new bmkp-latest-bookmark-alist)))
     (bookmark-bmenu-surreptitiously-rebuild-list (not msg-p)) new))
-
-;; eval (bmkp-make-lambda-bookmark-from-region "test") on a region which is a legal function body form
-
-(message "test")
 
 ;; TODO transient defachievment -> one bookmark of each known type
 

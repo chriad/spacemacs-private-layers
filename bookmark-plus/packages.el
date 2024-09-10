@@ -54,6 +54,7 @@
                            "bookmark+-doc.el"
                            "bookmark+-chg.el")))
     (linkd :location (recipe :fetcher wiki)) ;; for bookmark+
+    (thingatpt+ :location (recipe :fetcher wiki)) ;; for bookmark+
     ;; (narrow-indirect :fetcher wiki) ;; for bookmark+
     )
   "The list of Lisp packages required by the bookmark-plus layer.
@@ -88,7 +89,9 @@ Each entry is either:
     :defer t
     :bind
     (:map bmkp-set-map
-          ("I" . bmkp-set-info-bookmark-with-node-name)
+          ("C-c I" . bmkp-set-info-bookmark-with-node-name)
+          ("C-c t" . chriad/bmkp-set-tag-prompt)
+          ("C-c l" . chriad/bmkp-make-lambda-bookmark-from-sexp)
      ;; :map bmkp-jump-map
      ;; ("C-x x O p" . chriad/bookmark-set-tag-prompt)
      ;; ("C-x x O s" . bmkp-bookmark-file-switch-jump)
@@ -98,4 +101,8 @@ Each entry is either:
 
 (defun bookmark-plus/init-linkd ()
   (use-package linkd
+    :defer t))
+
+(defun bookmark-plus/init-thingatpt+ ()
+  (use-package thingatpt+
     :defer t))
