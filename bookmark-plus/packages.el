@@ -38,6 +38,75 @@
 ;;   define the functions `bookmark-plus/pre-init-PACKAGE' and/or
 ;;   `bookmark-plus/post-init-PACKAGE' to customize the package as it is loaded.
 
+;; `apropos'
+;; `apropos+'
+;; `auth-source'
+;; `avoid'
+;; `backquote',
+;; `bookmark'
+;; `bookmark+'
+;; `bookmark+-1'
+;; `bookmark+-bmu',
+;; `bookmark+-key'
+;; `bookmark+-lit'
+;; `button'
+;; `bytecomp'
+;; `cconv',
+;; `cl-generic'
+;; `cl-lib'
+;; `cl-macs'
+;; `cmds-menu'
+;; `col-highlight',
+;; `crosshairs'
+;; `eieio'
+;; `eieio-core'
+;; `eieio-loaddefs',
+;; `epg-config'
+;; `fit-frame'
+;; `font-lock'
+;; `font-lock+',
+;; `frame-fns'
+;; `gv'
+;; `help+'
+;; `help-fns'
+;; `help-fns+',
+;; `help-macro'
+;; `help-macro+'
+;; `help-mode'
+;; `hl-line'
+;; `hl-line+',
+;; `info'
+;; `info+'
+;; `kmacro'
+;; `macroexp'
+;; `menu-bar'
+;; `menu-bar+',
+;; `misc-cmds'
+;; `misc-fns'
+;; `naked'
+;; `package'
+;; `password-cache',
+;; `pp'
+;; `pp+'
+;; `radix-tree'
+;; `rect'
+;; `replace'
+;; `second-sel',
+;; `seq'
+;; `strings'
+;; `syntax'
+;; `tabulated-list'
+;; `text-mode',
+;; `thingatpt'
+;; `thingatpt+'
+;; `url-handlers'
+;; `url-parse',
+;; `url-vars'
+;; `vline'
+;; `w32browser-dlgopen'
+;; `wid-edit',
+;; `wid-edit+'
+
 ;;; Code:
 
 (defconst bookmark-plus-packages
@@ -54,8 +123,9 @@
                            "bookmark+-doc.el"
                            "bookmark+-chg.el")))
     (linkd :location (recipe :fetcher wiki)) ;; for bookmark+
-    (thingatpt+ :location (recipe :fetcher wiki)) ;; for bookmark+
-    ;; (narrow-indirect :fetcher wiki) ;; for bookmark+
+    (thingatpt+ :location (recipe :fetcher wiki))
+    (pp+ :location (recipe :fetcher wiki))
+    ;; (fit-frame :location (recipe :fetcher wiki))
     )
   "The list of Lisp packages required by the bookmark-plus layer.
 
@@ -105,4 +175,9 @@ Each entry is either:
 
 (defun bookmark-plus/init-thingatpt+ ()
   (use-package thingatpt+
+    :defer t))
+
+
+(defun bookmark-plus/init-pp+ ()
+  (use-package pp+
     :defer t))

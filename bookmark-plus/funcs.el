@@ -8,6 +8,10 @@
 ;;; not
 ;;; *helpful ...* ...   --- Unknown location ---
 
+;; TODO
+;; (eval-when-compile (require 'bookmark+-bmu))
+;; (eval-when-compile (require 'bookmark+-1))
+
 (defun chriad/bmkp-set-tag-prompt ()
     "Prompt for tag"
   (interactive)
@@ -37,25 +41,26 @@
 
 ;;; register existing bookmarks with bookmark+
 ;; now-bookmark
+;; package-recompile
+;; (defmacro chriad/bmkp-register-new-simple-type-bookmark (name doc-string handler-function)
+;;   "A simple type is one that can simply be checked by its handler function"
+;;   (let  ((alist-only-cmd (intern (format "bmkp-%s-bookmark-alist-only" name)))
+;;          (bmenu-show-only-cmd (intern (format "bmkp-bmenu-show-only-%s-bookmarks" name))))
+;;      `(progn
+;;        (defun ,alist-only-cmd ()
+;;          ,doc-string
+;;          (bookmark-maybe-load-default-file)
+;;          (bmkp-remove-if-not
+;;           (lambda () (eq (bookmark-get-handler bookmark) ',handler-function))
+;;           bookmark-alist)))
+;;      (bmkp-define-history-variables)
+;;      ;; (setq sname (symbol-name) ,name)
+;;      ;; (bmkp-define-show-only-command name ,doc-string ,alist-only-cmd)
+;;      ;; `(define-key bookmark-bmenu-mode-map [remap bmkp-bmenu-show-only-desktop-bookmarks] ',bmenu-show-only-cmd)
+;;      ))
 
-;(defmacro chriad/bmkp-register-new-simple-type-bookmark (name doc-string handler-function)
-; "A simple type is one that can simply be checked by its handler function"
-; (let* ((command (intern (format "bmkp-%s-bookmark-alist-only" name)))
-;        (command2 (intern (format "bmkp-bmenu-show-only-%s-bookmarks" name))))
-;    `(progn
-;     (defun ,command ()
-;       ,doc-string
-;       (bookmark-maybe-load-default-file)
-;       (bmkp-remove-if-not
-;        (lambda () (eq (bookmark-get-handler bookmark) ,handler-function))
-;        bookmark-alist)))
-;    (bmkp-define-history-variables)
-;    `(bmkp-define-show-only-command ,name ,doc-string ,command)
-;    `(define-key bookmark-bmenu-mode-map [remap bmkp-bmenu-show-only-desktop-bookmarks]
-;                 ',command2)))
-
-;; register new bookmark with bookmark+, i.e. add jump command and bmenu filter and key in use map
-;(chriad/bmkp-register-new-simple-type-bookmark "nov" "A bookmark for epub" 'nov-bookmark-jump-handler)
+;; ;; register new bookmark with bookmark+, i.e. add jump command and bmenu filter and key in use map
+;; (chriad/bmkp-register-new-simple-type-bookmark "nov" "A bookmark for epub" 'nov-bookmark-jump-handler)
 
 
 
@@ -131,12 +136,13 @@
 ;;                                  ("Jose Antonio Ortega Ruiz" . "(jao@gnu.org)")))
 ;;                                nil))
 
+;; TODO use after-set-hook and bookmark-current-bookmark to inspect and ev. change libpath
 (defun lib-bookmark-jump (bookmark)
   "Create and switch to helpful bookmark BOOKMARK."
   (let* ((pkg (bookmark-prop-get bookmark 'pkg))
          (position (bookmark-prop-get bookmark 'position))
          (oldpath (bookmark-prop-get bookmark 'libpath))
-         (newpath  (find-library pkg)))
+         (newpath  (find-library-name pkg)))
     ;; check if package has been updated since last visit
     ;; add new path to list 'revisions to track change
     ;; bookmark-current-bookmark set-prop?
@@ -153,8 +159,9 @@
 
 ;; A library name is the filename of an Emacs Lisp library located in a directory under load-path
 (defun lib-bookmark-make-record ()
-  ;; (require 'package-lint)
-  ;; TODO check (package-lint--get-package-prefix)=nil. Then dispatch to normal bookmark-default-record
+  ;; TODO autoupdate libpath like visits count, bmkp-properties-to-keep
+  ;; TODO this could be an autofile bookmark type since file name is const only dir name not! check if bmkp-autofile-p for this but I think not; no autofile does not record region!!!
+  ;; TODO if libpatch changes: bmkp=replace-existing-bookmakr
   ;; TODO difference between point and position?
   ;; TODO if nil assume builtin?
   ;; epl-find-built-in-package
@@ -167,8 +174,7 @@
   `(,@(bookmark-make-record-default t nil nil) ;; no-file context=yes point=yes
     (pkg       . ,(file-name-nondirectory (buffer-file-name)))
     (libpath   . ,(buffer-file-name))
-    (handler   . lib-bookmark-jump))
-  `(,@(bookmark-make-record-default))))
+    (handler   . lib-bookmark-jump))))
 
 ;; (defun el-pkg-p ()
 ;;   (require 'package-lint)
