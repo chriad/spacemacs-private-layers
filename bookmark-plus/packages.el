@@ -41,7 +41,7 @@
 ;; `apropos'
 ;; `apropos+'
 ;; `auth-source'
-;; `avoid'
+;; `avoid' ;; builtin
 ;; `backquote',
 ;; `bookmark'
 ;; `bookmark+'
@@ -51,7 +51,7 @@
 ;; `bookmark+-lit'
 ;; `button'
 ;; `bytecomp'
-;; `cconv',
+;; `cconv', ;; builtin
 ;; `cl-generic'
 ;; `cl-lib'
 ;; `cl-macs'
@@ -66,11 +66,11 @@
 ;; `font-lock'
 ;; `font-lock+',
 ;; `frame-fns'
-;; `gv'
+;; `gv' ;; generalized variables
 ;; `help+'
 ;; `help-fns'
 ;; `help-fns+',
-;; `help-macro'
+;; `help-macro' ;; builtin
 ;; `help-macro+'
 ;; `help-mode'
 ;; `hl-line'
@@ -125,6 +125,10 @@
     (linkd :location (recipe :fetcher wiki)) ;; for bookmark+
     (thingatpt+ :location (recipe :fetcher wiki))
     (pp+ :location (recipe :fetcher wiki))
+    (font-lock+ :location (recipe :fetcher wiki))
+    (help-macro+ :location (recipe :fetcher wiki))
+    (help-fns+ :location (recipe :fetcher wiki))
+    (misc-fns :location (recipe :fetcher wiki) :excluded t)
     ;; (fit-frame :location (recipe :fetcher wiki))
     )
   "The list of Lisp packages required by the bookmark-plus layer.
@@ -157,16 +161,16 @@ Each entry is either:
 (defun bookmark-plus/init-bookmark+ ()
   (use-package bookmark+
     :defer t
-    :bind
-    (:map bmkp-set-map
-          ("C-c I" . bmkp-set-info-bookmark-with-node-name)
-          ("C-c t" . chriad/bmkp-set-tag-prompt)
-          ("C-c l" . chriad/bmkp-make-lambda-bookmark-from-sexp)
+    :bind (
+           :map bmkp-set-map
+           ("C-c I" . bmkp-set-info-bookmark-with-node-name)
+           ("C-c t" . chriad/bmkp-set-tag-prompt)
+           ("C-c l" . chriad/bmkp-make-lambda-bookmark-from-sexp)
      ;; :map bmkp-jump-map
      ;; ("C-x x O p" . chriad/bookmark-set-tag-prompt)
      ;; ("C-x x O s" . bmkp-bookmark-file-switch-jump)
-     )
-    ))
+          :map bookmark-bmenu-mode-map
+          ("T a" . bmkp-bmenu-add-tags))))
 
 
 (defun bookmark-plus/init-linkd ()
@@ -181,3 +185,37 @@ Each entry is either:
 (defun bookmark-plus/init-pp+ ()
   (use-package pp+
     :defer t))
+
+
+(defun bookmark-plus/init-font-lock+ ()
+  (use-package font-lock+
+    :defer t))
+
+(defun bookmark-plus/init-help-macro+ ()
+  (use-package help-macro+
+    :defer t))
+
+
+(defun bookmark-plus/init-help-fns+ ()
+  (use-package help-fns+
+    :defer t))
+
+;; (defun bookmark-plus/init-misc-fns ()
+;;   (use-package misc-fns
+;;     :defer t))
+
+;; (defun bookmark-plus/post-init-helm-bookmarks
+;;     (use-package helm-bookmarks
+;;       :defer t
+;;       :after helm-bookmarks
+;;       :config
+
+;;       (defun helm-bookmark-dired-setup-alist ()
+;;         "Specialized filter function for Org file bookmarks."
+;;         (helm-bookmark-filter-setup-alist 'bmkp-dired-bookmark-p))
+
+;;       (defun helm-source-bookmark-dired-builder ()
+;;         (helm-bookmark-build-source "Dired" #'helm-bookmark-dired-setup-alist))
+
+;;       (defvar helm-source-bookmark-dired (helm-source-bookmark-dired-builder))
+;;       ))

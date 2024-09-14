@@ -54,9 +54,8 @@
 ;;           (lambda () (eq (bookmark-get-handler bookmark) ',handler-function))
 ;;           bookmark-alist)))
 ;;      (bmkp-define-history-variables)
-;;      ;; (setq sname (symbol-name) ,name)
-;;      ;; (bmkp-define-show-only-command name ,doc-string ,alist-only-cmd)
-;;      ;; `(define-key bookmark-bmenu-mode-map [remap bmkp-bmenu-show-only-desktop-bookmarks] ',bmenu-show-only-cmd)
+;;      (bmkp-define-show-only-command name ,doc-string ,alist-only-cmd)
+;;      ;; `(define-key bookmark-bmenu-mode-map key ',bmenu-show-only-cmd)
 ;;      ))
 
 ;; ;; register new bookmark with bookmark+, i.e. add jump command and bmenu filter and key in use map
@@ -181,7 +180,7 @@
 ;;   (if (package-lint--get-package-prefix) t nil))
 
 ;; TODO modify such that all files on load path will have this
-(add-hook 'emacs-lisp-mode-hook #'(lambda () (setq-local bookmark-make-record-function #'lib-bookmark-make-record)))
+(add-hook 'emacs-lisp-mode-hook '(lambda () (setq-local bookmark-make-record-function #'lib-bookmark-make-record)))
 
 
 

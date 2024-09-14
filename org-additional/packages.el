@@ -50,11 +50,14 @@
                              :repo "amno1/org-babel-hide-markers-mode"
                              :files ("org-babel-hide-markers.el")))
     ;; org
+    org-tidy
+    org-link-beautify
     (org-link-minor-mode :location (recipe
                                     :fetcher github
                                     :repo "seanohalpin/org-link-minor-mode"))
     )
 )
+
 
 ;; (use-package hydra)
 
@@ -82,6 +85,14 @@
 ;;       (kbd "s") 'org-fc-review-suspend-card
 ;;       (kbd "q") 'org-fc-review-quit)
 ;;     ))
+
+(defun org-additional/init-org-link-beautify ()
+  (use-package org-link-beautify
+    :defer t))
+
+(defun org-additional/init-org-tidy ()
+  (use-package org-tidy
+    :defer t))
 
 (defun org-additional/init-org-starless ()
   (use-package org-starless

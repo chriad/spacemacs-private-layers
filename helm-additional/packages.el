@@ -55,11 +55,12 @@
     helm-atoms
     ;; helm-bibtex
     ;; helm-bibtexkey
-    ;; helm-rg 
+    ;; helm-rg
     ;; helm-recoll
     ;;helm-emms
     ;;helm-system-packages
     ;;helm-sly
+    (helm-fuzzy-find :excluded t)
     ;; helm
     )
   )
@@ -85,6 +86,8 @@
   (use-package helm-unicode
     :defer t
     ))
+
+
 
 ;; (defun helm-additional/init-helm-bibtex ()
 ;;   (use-package helm-bibtex
