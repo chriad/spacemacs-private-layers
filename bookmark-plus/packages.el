@@ -170,7 +170,8 @@ Each entry is either:
      ;; ("C-x x O p" . chriad/bookmark-set-tag-prompt)
      ;; ("C-x x O s" . bmkp-bookmark-file-switch-jump)
           :map bookmark-bmenu-mode-map
-          ("T a" . bmkp-bmenu-add-tags))))
+          ("T a" . bmkp-bmenu-add-tags)
+          ("<tab>" . bmkp-bmenu-filter-bookmark-name-incrementally))))
 
 
 (defun bookmark-plus/init-linkd ()
@@ -204,6 +205,7 @@ Each entry is either:
 ;;   (use-package misc-fns
 ;;     :defer t))
 
+;; TODO create a macro?
 ;; (defun bookmark-plus/post-init-helm-bookmarks
 ;;     (use-package helm-bookmarks
 ;;       :defer t
@@ -218,4 +220,5 @@ Each entry is either:
 ;;         (helm-bookmark-build-source "Dired" #'helm-bookmark-dired-setup-alist))
 
 ;;       (defvar helm-source-bookmark-dired (helm-source-bookmark-dired-builder))
+;;       (add-to-list helm-bookmark-default-filtered-sources helm-source-bookmark-dired)
 ;;       ))

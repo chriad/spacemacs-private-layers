@@ -43,7 +43,13 @@
 (defconst curiophenalia-packages
   '((ink-mode :excluded t)
     (spray)
-    (fountain-mode :excluded t))
+    (fountain-mode :excluded t)
+    (snow :localtion (recipe
+                      :fetcher github
+                      :repo "alphapapa/snow.el"
+                      :files ("README.org" "snow.png")))
+
+    )
   "The list of Lisp packages required by the curiophenalia layer.
 
 Each entry is either:
@@ -72,4 +78,8 @@ Each entry is either:
         recipe.  See: https://github.com/milkypostman/melpa#recipe-format")
 (defun curiophenalia/init-spray ()
   (use-package spray
+    :defer t))
+
+(defun curiophenalia/init-snow()
+  (use-package snow
     :defer t))
